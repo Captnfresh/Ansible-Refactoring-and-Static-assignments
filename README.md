@@ -93,7 +93,20 @@ Let see code re-use in action by importing other playbooks.
 Other playbooks will be included here as a reference. In other words, `site.yml` will become a parent to all other playbooks that will be developed. Including common.yml that you created previously. Dont worry, you will understand more what this means shortly.
 
 2. Create a new folder in root of the repository and name it `static-assignments`. The `static-assignments` folder is where all other children playbooks will be stored. This is merely for easy organization of your work. It is not an Ansible specific concept, therefore you can choose how you want to organize your work. You will see why the folder name has a prefix of static very soon. For now, just follow along.
+
+```
+cd ..
+mkdir static-assignments
+```
+
 ![image](https://github.com/user-attachments/assets/f5862b42-b9c5-447d-a52c-ce3406b28936)
+
+3. Move `common.yml` file into the newly created `static-assignments` folder.
+
+```
+mv playbooks/common.yml static-assignments
+```
+
 
 
 
