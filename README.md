@@ -203,15 +203,55 @@ If Wireshark is removed, this command should indicate it is not installed.
 
 Refactoring with import_playbook helps organize complex Ansible configurations, making them easier to understand, extend, and manage across different server environments. The final site.yml acts as the single command point to orchestrate your infrastructure tasks efficiently.
 
+## Step 3 - Configuring UAT Webservers with a Role 'Webserver'
+To efficiently configure your UAT web servers, we’ll be using an Ansible role to organize tasks. This step-by-step guide will help you set up, configure, and manage two new RHEL 8 EC2 instances as UAT web servers.
 
+1. Launch UAT Web Server Instances:
+   
+* Launch two fresh RHEL 8 EC2 instances on AWS, which will serve as your UAT web servers. Name them:
+    * Web1-UAT
+    * Web2-UAT
+    Tip: Stop any other EC2 instances that aren’t currently needed to avoid unnecessary costs. For this step, you only need:
+        * Two RHEL 8 servers (UAT web servers)
+        * One Jenkins-Ansible server (already running for Ansible automation)
 
+2. Create the Role Structure
+* In the ansible-config-mgt directory, create a roles directory:
+```
+mkdir roles
+cd roles
+```
+![image](https://github.com/user-attachments/assets/daf9e32d-2671-4158-bfaf-46295ae676c2)
 
+Alternatively, you can create the directory and files manually. The folder structure should resemble this:
 
+```
+└── webserver
+    ├── README.md
+    ├── defaults
+    │   └── main.yml
+    ├── handlers
+    │   └── main.yml
+    ├── meta
+    │   └── main.yml
+    ├── tasks
+    │   └── main.yml
+    └── templates
+```
 
+Note: Remove unnecessary directories `(files, tests, and vars)` to keep things organized.
 
+3. Update the UAT Inventory
+Go to the inventory directory in ansible-config-mgt and update uat.yml with the IP addresses of your UAT servers. Ensure you add your private IP addresses:
 
+```
+[uat-webservers]
+<Web1-UAT-Server-Private-IP-Address> ansible_ssh_user='ec2-user'
+<Web2-UAT-Server-Private-IP-Address> ansible_ssh_user='ec2-user'
+```
+![image](https://github.com/user-attachments/assets/e8581c56-0783-4fc8-9f33-26f7e18b2b0e)
 
-
+Configure SSH Agent: Ensure you are using ssh-agent for SSH access to your Jenkins-Ansible server.
 
 
 
