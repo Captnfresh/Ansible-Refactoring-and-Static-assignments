@@ -106,10 +106,102 @@ mkdir static-assignments
 ```
 mv playbooks/common.yml static-assignments
 ```
+After this, the `common.yml` file will reside within `static-assignments`, separating it from the main entry point (site.yml) in playbooks.
 
+![image](https://github.com/user-attachments/assets/95dcd0e4-36e4-4923-a3c7-77625a5105b5)
 
+4. Import the common.yml Playbook into `site.yml`:
+In `site.yml`, add an import statement to include the `common.yml` playbook. This modular approach lets you expand `site.yml` to include additional playbooks as your infrastructure grows.
 
+Update the site.yml file:
 
+```
+---
+- hosts: all
+  - import_playbook: ../static-assignments/common.yml
+```
+
+5. Verify Folder Structure
+After completing the reorganization, your project folder structure should look like this:
+
+```
+├── static-assignments
+│   └── common.yml
+├── inventory
+│   ├── dev
+│   ├── stage
+│   ├── uat
+│   └── prod
+└── playbooks
+    └── site.yml
+```
+
+6. Create a New Playbook for Package Deletion: Next, you’ll create a separate playbook for deleting the Wireshark utility from specific servers. Within the static-assignments folder, create a new playbook named common-del.yml to delete Wireshark
+
+```
+---
+- name: Update web, nfs servers
+  hosts: webservers, nfs
+  remote_user: ec2-user
+  become: yes
+  become_user: root
+  tasks:
+    - name: Delete wireshark
+      yum:
+        name: wireshark
+        state: removed
+
+- name: Update LB server and db server
+  hosts: lb, db
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  tasks:
+    - name: Delete wireshark
+      apt:
+        name: wireshark
+        state: absent
+        autoremove: yes
+        purge: yes
+        autoclean: yes
+
+```
+![image](https://github.com/user-attachments/assets/338be53f-9f1e-4f25-9216-53aa90ab823f)
+
+### Explanation: This playbook targets different hosts (webservers, nfs, db, and lb) to delete Wireshark. It uses yum for Red Hat-based systems and apt for Ubuntu-based systems.
+
+7. Update site.yml to Include the New Playbook: After creating common-del.yml, update site.yml to reference it instead of common.yml.
+Update site.yml to include the new playbook:
+
+```
+---
+- hosts: all
+  - import_playbook: ../static-assignments/common-del.yml 
+```
+
+8. Execute the Playbook in the dev Environment: To run the playbook against your dev environment, Navigate to the project directory:
+
+```
+cd /home/ubuntu/ansible-config-mgt/
+```
+9. Run the ansible-playbook command targeting the dev environment:
+
+```
+ansible-playbook -i inventory/dev.yml playbooks/site.yml
+```
+
+![image](https://github.com/user-attachments/assets/b706b03a-8f0b-499a-bea5-490264f753df)
+
+10. After the playbook completes, verify Wireshark has been deleted from all servers by running:
+
+```
+wireshark --version
+```
+If Wireshark is removed, this command should indicate it is not installed.
+
+![image](https://github.com/user-attachments/assets/aa8b9e93-db46-4163-b0c3-c23c3d3a474b)
+
+Refactoring with import_playbook helps organize complex Ansible configurations, making them easier to understand, extend, and manage across different server environments. The final site.yml acts as the single command point to orchestrate your infrastructure tasks efficiently.
 
 
 
