@@ -348,13 +348,43 @@ Add the Following Tasks to main.yml:
 
 Replace Placeholder `(<your-name>):` Replace `<your-name>` with your GitHub username in the repository URL.
 
+## Step 3 - Create UAT Webservers Assignment:
 
+1. Create static-assignments/uat-webservers.yml:
 
+```
+---
+- hosts: uat-webservers
+  roles:
+     - webserver
+```
 
+2. Update playbooks/site.yml to include the new assignment:
 
+```
+---
+- hosts: all
+- import_playbook: ../static-assignments/common.yml
 
+- hosts: uat-webservers
+- import_playbook: ../static-assignments/uat-webservers.yml
+```
 
+3. Commit your changes by running this command:
 
+```
+git add . && git commit -m "Added webserver role logic and updated configuration" && git pull origin main --rebase && git push origin main
+```
+
+![image](https://github.com/user-attachments/assets/f1a2b2e3-3d0d-493d-8cc4-dbfc780f4000)
+
+4. Create Pull Request:
+
+![image](https://github.com/user-attachments/assets/f9d0927b-50c1-4565-88ab-57bcca3a6260)
+
+5. Ensure that the webhook triggers two consecutive Jenkins jobs and that they run successfully.
+
+![image](https://github.com/user-attachments/assets/269d2be8-0be0-493f-b86a-5d1f799cc886)
 
 
 
