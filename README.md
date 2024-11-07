@@ -251,9 +251,107 @@ Go to the inventory directory in ansible-config-mgt and update uat.yml with the 
 ```
 ![image](https://github.com/user-attachments/assets/e8581c56-0783-4fc8-9f33-26f7e18b2b0e)
 
-Configure SSH Agent: Ensure you are using ssh-agent for SSH access to your Jenkins-Ansible server.
+4. In `/etc/ansible/ansible.cfg` file uncomment `roles_path` string and provide a full path to your roles directory. If you can’t locate the /etc/ansible/ansible.cfg file, there are a couple of steps you can try to locate or create it:
 
+5. Configure SSH Agent: Ensure you are using ssh-agent for SSH access to your Jenkins-Ansible server.
+   
 ![image](https://github.com/user-attachments/assets/9f4c9556-f0cf-4621-8790-ec35f83e4870)
+
+   
+6. Check the default Ansible configuration file: Run the following command in the terminal to confirm the location of the configuration file Ansible is using:
+
+```
+ansible --version
+```
+This will show you the default path for the `ansible.cfg` file, which is usually `/etc/ansible/ansible.cfg`. If it’s missing, it may need to be created.
+
+7. Create the configuration file: If the file doesn’t exist in /etc/ansible, you can create it by running:
+
+```
+sudo mkdir -p /etc/ansible
+sudo touch /etc/ansible/ansible.cfg
+```
+
+8. Then, open it to add or edit the roles_path setting:
+   
+```
+sudo nano /etc/ansible/ansible.cfg
+```
+![image](https://github.com/user-attachments/assets/ff102390-4f08-42a2-a323-4a519cf330e1)
+
+Save and close the file: Press CTRL + X to exit Nano, then Y to confirm saving, and Enter to save the file under the same name.
+
+9. In the configuration file, look for the roles_path line (or add it if it’s missing), and specify the path:
+
+```
+roles_path = /home/ubuntu/ansible-config-mgt/roles
+```
+![image](https://github.com/user-attachments/assets/44734a4c-6984-4d8e-8dd3-9d4d1e6c2f4f)
+
+10. Steps to Add Logic to the Webserver Role. Navigate to the tasks directory in your webserver role:
+
+```
+cd ~/ansible-config-mgt/roles/webserver/tasks
+```
+
+11. Edit or Create main.yml: If the file doesn't exist, create it:
+
+```
+touch main.yml
+```
+
+12. Open the file using your preferred editor:
+
+```
+nano main.yml
+```
+
+Add the Following Tasks to main.yml:
+
+```
+---
+- name: Install Apache
+  become: true
+  ansible.builtin.yum:
+    name: httpd
+    state: present
+
+- name: Install Git
+  become: true
+  ansible.builtin.yum:
+    name: git
+    state: present
+
+- name: Clone the Tooling repository
+  become: true
+  ansible.builtin.git:
+    repo: https://github.com/<your-name>/tooling.git
+    dest: /var/www/html
+    force: yes
+
+- name: Move content to parent directory
+  become: true
+  command: cp -r /var/www/html/html/ /var/www/
+
+- name: Start httpd service
+  become: true
+  ansible.builtin.service:
+    name: httpd
+    state: started
+
+- name: Remove redundant html directory
+  become: true
+  ansible.builtin.file:
+    path: /var/www/html/html
+    state: absent
+```
+
+Replace Placeholder `(<your-name>):` Replace `<your-name>` with your GitHub username in the repository URL.
+
+
+
+
+
 
 
 
