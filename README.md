@@ -253,6 +253,8 @@ Go to the inventory directory in ansible-config-mgt and update uat.yml with the 
 
 Configure SSH Agent: Ensure you are using ssh-agent for SSH access to your Jenkins-Ansible server.
 
+![image](https://github.com/user-attachments/assets/9f4c9556-f0cf-4621-8790-ec35f83e4870)
+
 
 
 
