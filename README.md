@@ -386,18 +386,34 @@ git add . && git commit -m "Added webserver role logic and updated configuration
 
 ![image](https://github.com/user-attachments/assets/269d2be8-0be0-493f-b86a-5d1f799cc886)
 
+6. Execute Playbook. Run the playbook against the UAT inventory:
+
+![image](https://github.com/user-attachments/assets/e7bd2541-6dcd-4879-a381-80bfd8f78bf2)
+
+### Also do not forget to update your .ssh/config file adding the two new web servers created.
 
 
+7. Verify Deployment. Access the UAT webservers through a web browser:
+
+```
+http://<Web1-UAT-Server-Public-IP-or-Public-DNS-Name>/index.php
+http://<Web2-UAT-Server-Public-IP-or-Public-DNS-Name>/index.php
+```
+
+![image](https://github.com/user-attachments/assets/a21b756b-c74a-4b63-a5dd-87f5f1d176bd)
+
+### Web1-UAT-Server
+
+![image](https://github.com/user-attachments/assets/b414d55f-6964-494c-b78d-997c19eae9f1)
+
+### Web2-UAT-Server
 
 
+## CONCLUSION
+With this, we come to the end of the Ansible refactoring and implementation of static assignments/project. This new structure we implemented improves code organization, reusability, and maintainability. The Ansible architecture now includes dedicated roles and a more modular approach to configuration management
 
-
-
-
-
-
-
-
+This is what your new architecture should look like now.
+![image](https://github.com/user-attachments/assets/dce11028-b6ac-48ed-a817-f9295cf96d1f)
 
 
 
