@@ -391,6 +391,8 @@ git add . && git commit -m "Added webserver role logic and updated configuration
 ![image](https://github.com/user-attachments/assets/e7bd2541-6dcd-4879-a381-80bfd8f78bf2)
 
 ### Also do not forget to update your .ssh/config file adding the two new web servers created.
+![image](https://github.com/user-attachments/assets/e37dfec3-3c46-4a4a-9984-f268edd47570)
+
 
 
 7. Verify Deployment. Access the UAT webservers through a web browser:
