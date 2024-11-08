@@ -43,7 +43,7 @@ The main idea of save_artifacts project is to save artifacts into /home/ubuntu/a
 To achieve this, create a Build step and choose Copy artifacts from other project, specify ansible as a source project and /home/ubuntu/ansible-config-artifact as a target directory.
 image
 
-if you get an error Run `sudo chmod 755 /home/ubuntu` on your Jenkins server to give you the necessary permissioins needed.
+if you get an error Run `sudo chmod 755 /home/ubuntu` on your Jenkins server to give you the necessary permissions needed.
 
 ![WhatsApp Image 2024-11-03 at 15 56 15_5861345d](https://github.com/user-attachments/assets/ea5a3314-ad43-40f5-8fe9-d5cba68e3702)
 
